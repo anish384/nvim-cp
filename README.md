@@ -56,7 +56,7 @@ Navigate and edit your competitive programming solutions with these efficient ke
 | `gt`         | Jump to test cases and back            |
 | `R`          | Toggle comment on test cases           |
 | `gs`         | Jump to solve function                |
-| `<space>z`   | Fold solve function                  |
+| `<space>z`   | Fold the code above solve function                  |
 | `<space>cs`  | Copy solve function                  |
 | `<space>ci`  | Edit solve function                  |
 
@@ -88,9 +88,9 @@ Navigate and edit your competitive programming solutions with these efficient ke
    keymap.set("n", "<space>z", "ggV/upto<CR>zf/void solve()<CR>j<ESC>zz",
      { desc = "Fold solve function", silent = true })
    ```
-   Focus better by folding the solution.
+   Focus better by folding the code above solve function.
 
-> 💡 **Note**: These keymaps are tailored for a My CP template. Adjust them according to yours.
+> 💡 **Note**: These keymaps are tailored for a CP template located at `~/.config/nvim/snippets/cp_c++/cpp.snippets`.
 
 ## 📝 Snippets for Competitive Programming
 
