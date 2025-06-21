@@ -97,14 +97,14 @@ Navigate and edit your competitive programming solutions with these efficient ke
 ### 🛠️ Setting Up Snippets
 
 1. **Snippet Location**
-   - Snippets are stored in: `~/.config/nvim-cp/cp_c++/cpp.snippets`
+   - Snippets are stored in: `~/.config/nvim/snippets/cp_c++`
    - Using SnipMate format for simplicity and ease of use
 
 2. **Configure Snippet Path**
    Update the path in `~/.config/nvim/lua/plugins/snippets.lua` according to yours:
    ```lua
    require("luasnip.loaders.from_snipmate").lazy_load({
-     paths = { "~/.config/nvim-cp/cp_c++" }  -- Update this path
+     paths = { "~/.config/nvim/snippets/cp_c++" }  -- Update this path
    })
    ```
 

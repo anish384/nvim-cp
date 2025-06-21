@@ -5,7 +5,7 @@ return{
 
     -- Load snippets
     require("luasnip.loaders.from_snipmate").lazy_load({
-      paths = { "~/.config/nvim-cp/cp_c++" },
+      paths = { "~/.config/nvim/snippets/cp_c++" },
     })
 
     -- Key mappings

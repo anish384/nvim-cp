@@ -1,0 +1,95 @@
+snippet cp
+	/*
+	*  author     : <your_name>
+	*  Created on : `strftime("%d-%m-%Y: %H:%M:%S")`
+	*  Filename   : `expand('%:t')`
+	*  Contest    : `expand('%:p:h:t')`
+	*/
+	#include <bits/stdc++.h>
+	using namespace std;
+	#define pb push_back
+	#define SWAP(a, b) (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
+	#define py cout << "Yes" << '\n'
+	#define pn cout << "No" << '\n'
+	#define pyy cout << "yes" << '\n'
+	#define pnn cout << "no" << '\n'
+	#define pY cout << "YES" << '\n'
+	#define pN cout << "NO" << '\n'
+	#define fr(i, a, b) for (int i = a; i < b; i++)
+	#define fn(i, a, b) for (int i = a; i >= b; i--)
+	#define all(x) x.begin(), x.end()
+	#define rall(x) x.rbegin(), x.rend()
+	#define min3(a, b, c) min(a, min(b, c))
+	#define max3(a, b, c) max(a, max(b, c))
+	#define gcd(a, b) __gcd(a, b)
+	#define lcm(a, b) (a / gcd(a, b)) * b
+	#define ispow2(x) (x && !(x & (x - 1)))
+	#define nl '\n'
+	#define print(var) cout << var << endl
+	#define int long long
+	#define debug(vec) cout << #vec << " = "; __print(vec); cout << endl;
+	typedef long long ll;
+	typedef vector<int> vi;
+	typedef vector<pair<int,int>> ii;
+	template <typename T> void __print(const vector<T>& v) { cout << "[ "; for (const auto& val : v) cout << val << " "; cout << "]"; }
+	template <typename T> void __print(const set<T>& s) { cout << "{ "; for (const auto& val : s) cout << val << " "; cout << "}"; }
+	template <typename K, typename V> void __print(const map<K, V>& m) { cout << "{ "; for (const auto& [key, val] : m) cout << key << ":" << val << " "; cout << "}"; }
+	template <typename T1, typename T2> void __print(const pair<T1, T2>& p) { cout << "(" << p.first << ", " << p.second << ")"; }
+	template <typename T> void __print(const unordered_set<T>& us) { cout << "{ "; for (const auto& val : us) cout << val << " "; cout << "}"; }
+	template <typename K, typename V> void __print(const unordered_map<K, V>& um) { cout << "{ "; for (const auto& [key, val] : um) cout << key << ":" << val << " "; cout << "}"; }
+	template <typename T> void __print(stack<T> s) { vector<T> v; while (!s.empty()) { v.pb(s.top()); s.pop(); } reverse(all(v)); cout << "[ "; for (const auto& val : v) cout << val << " "; cout << "]"; }
+	template <typename T> void __print(queue<T> q) { vector<T> v; while (!q.empty()) { v.pb(q.front()); q.pop(); } cout << "[ "; for (const auto& val : v) cout << val << " "; cout << "]"; }
+	template <typename T> void __print(priority_queue<T> pq) { vector<T> v; while (!pq.empty()) { v.pb(pq.top()); pq.pop(); } cout << "[ "; for (const auto& val : v) cout << val << " "; cout << "]"; }
+	const int MOD = 1e9 + 7;
+	#define bug(...) __f(#__VA_ARGS__, __VA_ARGS__)
+	template <typename Arg1> void __f(const char* name, Arg1&& arg1) { cout << name << " : " << arg1 << endl; }
+	template <typename Arg1, typename... Args> void __f(const char* names, Arg1&& arg1, Args&&... args) { const char* comma = strchr(names + 1, ','); cout.write(names, comma - names) << " : " << arg1 << " | "; __f(comma + 1, args...); }
+	inline int sq(int x) { return x * x; }
+	inline int ceil_div(int a, int b) { return (a + b - 1) / b; }
+	template<typename T> void vci(vector<T>& vec, int size) { vec.resize(size); for(int i = 0; i < size; i++) cin >> vec[i]; }
+	template <typename T> void vvci(vector<vector<T>>& vec, int rows, int cols) { vec.resize(rows); for (int i = 0; i < rows; ++i) { vec[i].resize(cols); for (int j = 0; j < cols; ++j) cin >> vec[i][j]; } }
+	template <typename Container> void sor(Container& container) { sort(all(container)); }
+	template <typename Container> void sord(Container& container) { sort(all(container), greater<typename Container::value_type>()); }
+	// upto here
+
+	void solve()
+	{${0}
+	}
+
+	int32_t main() {
+		ios::sync_with_stdio(false); cin.tie(nullptr); int t = 1;
+		// cin >> t;
+		while (t--){
+			#ifdef local
+				cout<<"***************************************************"<<nl;
+			#endif
+			solve();
+		}
+		return 0;
+	}
+
+snippet ct
+	cout<<${0}
+
+snippet vci
+	vci(${1}, ${2});
+
+snippet cn
+	cin>>${0}
+
+snippet fe
+	for(auto &x: ${1}){
+		${2}
+	}
+
+snippet pair
+	pair<int,int> ${0}
+
+snippet basic
+    #include <bits/stdc++.h>
+    using namespace std;
+
+    int main()
+    {
+        ${0}
+    }
