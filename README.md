@@ -54,7 +54,7 @@ Navigate and edit your competitive programming solutions with these efficient ke
 | Key          | Action                                 |
 |--------------|----------------------------------------|
 | `gt`         | Jump to test cases and back            |
-| `T`          | Toggle comment on test cases           |
+| `R`          | Toggle comment on test cases           |
 | `gs`         | Jump to solve function                |
 | `<space>z`   | Fold solve function                  |
 | `<space>cs`  | Copy solve function                  |
