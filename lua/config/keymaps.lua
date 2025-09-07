@@ -8,8 +8,8 @@ keymap.set("i", "jj", "<ESC>", { desc = "Exit insert mode with jk" })
 
 -- Navigation
 keymap.set("n", "J", "%", { desc = "Jump to matching bracket", silent = true })
-keymap.set("n", "A", "$", { desc = "Jump to end of line", silent = true })
-keymap.set("n", "K", "^", { desc = "Jump to beginning of line", silent = true })
+keymap.set("n", "L", "$", { desc = "Jump to end of line", silent = true })
+keymap.set("n", "H", "^", { desc = "Jump to beginning of line", silent = true })
 keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center", silent = true })
 keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center", silent = true })
 keymap.set("n", "n", "nzzzv", { desc = "Next search result and center", silent = true })
@@ -25,6 +25,8 @@ keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to lower window", silent = tru
 keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to upper window", silent = true })
 keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to right window", silent = true })
 
+keymap.set("n", "<leader>do", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "diagnostics", silent = true })
+
 -- Window resizing
 keymap.set("n", "<C-Up>", "<cmd>resize +2<CR>", { desc = "Increase window height", silent = true })
 keymap.set("n", "<C-Down>", "<cmd>resize -2<CR>", { desc = "Decrease window height", silent = true })
@@ -32,8 +34,8 @@ keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<CR>", { desc = "Decrease wi
 keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "Increase window width", silent = true })
 
 -- Buffer management
-keymap.set("n", "<S-h>", "<cmd>bprevious<CR>", { desc = "Previous buffer", silent = true })
-keymap.set("n", "<S-l>", "<cmd>bnext<CR>", { desc = "Next buffer", silent = true })
+-- keymap.set("n", "<S-h>", "<cmd>bprevious<CR>", { desc = "Previous buffer", silent = true })
+-- keymap.set("n", "<S-l>", "<cmd>bnext<CR>", { desc = "Next buffer", silent = true })
 keymap.set("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Delete buffer", silent = true })
 
 -- Tab management
@@ -48,7 +50,7 @@ keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number", silent = true
 keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number", silent = true })
 keymap.set("n", "<space>=", "ggVG=", { desc = "Format entire file", silent = true })
 keymap.set("n", "<space>ad", "ggVGd", { desc = "Select and delete all content", silent = true })
-keymap.set("n", "<space>y", 'gg"+yG', { desc = "Yank entire file to clipboard", silent = true })
+keymap.set("n", "Y", 'gg"+yG', { desc = "Yank entire file to clipboard", silent = true })
 keymap.set("n", "<C-s>", "<cmd>w<CR>", { desc = "Save file", silent = true })
 keymap.set("n", "<leader>qq", "<cmd>qa<CR>", { desc = "Quit all", silent = true })
 
@@ -64,8 +66,8 @@ keymap.set("v", ">", ">gv", { desc = "Indent right and reselect", silent = true 
 -- Line movement
 keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down", silent = true })
 keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up", silent = true })
-keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down", silent = true })
-keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up", silent = true })
+keymap.set("v", "<S-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down", silent = true })
+keymap.set("v", "<S-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up", silent = true })
 
 -- File operations
 keymap.set("n", "<space>f", "<cmd>Ex<CR>", { desc = "Open file explorer", silent = true })
@@ -89,26 +91,49 @@ keymap.set("n", "<space>ci", "/void solve()<CR>jvi{d%o", { desc = "Edit solve fu
 keymap.set("i", "ww", "<C-w>", { desc = "Delete word in insert mode", silent = true })
 keymap.set("i", "wd", "<ESC>ddO", { desc = "Delete line and create new line", silent = true })
 
+vim.opt.laststatus = 0
 
 vim.keymap.set("n", "<space>r", function()
-    vim.cmd("w") -- Save the file before compiling
-    local filename = vim.fn.expand("%:r") -- Get filename without extension
-    local filepath = vim.fn.expand("%") -- Get full file path
+    -- 1. Save the current file before doing anything
+    vim.cmd("w")
 
-    -- Escape spaces in file paths
-    local escaped_filename = vim.fn.shellescape(filename)
+    -- 2. Get file information
+    local filepath = vim.fn.expand("%")            -- Full path, e.g., /path/to/file.cpp
+    local filename_no_ext = vim.fn.expand("%:r")   -- Path and filename without extension, e.g., /path/to/file
+    local file_ext = vim.fn.expand("%:e")          -- Just the extension, e.g., cpp
+
+    -- 3. Shell-escape the file paths to handle spaces or special characters
     local escaped_filepath = vim.fn.shellescape(filepath)
+    local escaped_filename_no_ext = vim.fn.shellescape(filename_no_ext)
 
-    -- Open terminal inside Neovim
+    -- 4. Determine the command to run based on the file extension
+    local command_to_run
+    if file_ext == "cpp" then
+        command_to_run = "g++ -I ~/.local/include -DlocalInclude -fsanitize=address -std=c++20 -Wall -Wextra -Wshadow -Dlocal -O2 -o "
+                         .. escaped_filename_no_ext .. " " .. escaped_filepath .. " && ./" .. escaped_filename_no_ext .. "\n"
+    elseif file_ext == "c" then
+        command_to_run = "gcc -std=c89 -pedantic -Wall -Wextra " .. escaped_filepath .. " -o " .. escaped_filename_no_ext
+                         .. " && ./" .. escaped_filename_no_ext .. "\n"
+    elseif file_ext == "py" then
+        command_to_run = "python3 " .. escaped_filepath .. "\n"
+    else
+        -- If the file type is not supported, notify the user and stop.
+        vim.notify("Unsupported file type for running: " .. file_ext, vim.log.levels.WARN)
+        return
+    end
+
+    -- 5. Open a terminal to run the command
     vim.cmd("terminal")
 
-    -- Delay to ensure the terminal is ready before sending the command
+    -- 6. Defer sending the command to ensure the terminal has initialized
     vim.defer_fn(function()
-        -- Send the compilation and execution command to the terminal
-        vim.api.nvim_chan_send(vim.b.terminal_job_id, "g++ -fsanitize=address -std=c++20 -Wall -Wextra -Wshadow -Dlocal -O2 -o "
-        .. escaped_filename .. " " .. escaped_filepath .. " && ./" .. escaped_filename .. "\n")
-
-        -- Switch to insert mode after running the command
+        -- 7. Send the constructed command to the terminal's channel
+        vim.api.nvim_chan_send(
+            vim.b.terminal_job_id,
+            command_to_run
+        )
+        -- 8. Switch to insert mode in the terminal for convenience
         vim.api.nvim_feedkeys("i", "t", false)
     end, 100)
-end, { noremap = true, silent = true })
+end, { noremap = true, silent = true, desc = "Compile/Run current file based on type" })
+
