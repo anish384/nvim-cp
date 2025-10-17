@@ -69,9 +69,9 @@ Navigate and edit your competitive programming solutions with these efficient ke
    ```
    Quickly jump to test cases section and back to your solution.
 
-2. **Toggle Test Cases** (`T`)
+2. **Toggle Test Cases** (`R`)
    ```lua
-   keymap.set("n", "T", "/cin >> t;<CR>i// <ESC>/void solve()<CR>j<ESC>zz",
+   keymap.set("n", "R", "/cin >> t;<CR>i// <ESC>/void solve()<CR>j<ESC>zz",
      { desc = "Toggle test cases comment", silent = true })
    ```
    Comment/uncomment test cases with a single key.
